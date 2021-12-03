@@ -91,7 +91,10 @@ namespace Aiive.Nest.Training.IntegrationTest
 
         /// </summary>
         [Fact]
-        public void Teste7() { }
+        public void Teste7() 
+        {
+
+        }
 
         /// <summary>
         /// 8. Agora ele perguntou pra gente quanto nós vendemos para cada gênero.
