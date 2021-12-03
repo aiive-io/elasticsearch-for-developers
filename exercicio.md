@@ -30,4 +30,5 @@ Para esses exercícios vamos utilizar o indice de sample do kibana. Vamos fazer 
 
 9. Vamos separar a quantidade de taxas por intervalos.
 
+10. O que significa Global?
 
