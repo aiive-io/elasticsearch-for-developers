@@ -36,13 +36,7 @@ namespace Aiive.Nest.Training.IntegrationTest
         [Fact]
         public void Teste1()
         {
-            string index = "ecommerce";
-
-            var client = _helpers.CreateElasticClient(index);
-
-            var result = client.Search<Sample>(s => s.MatchAll());
-
-            result.Total.Should().NotBe(0);
+          
         }
 
         /// <summary>
@@ -51,13 +45,7 @@ namespace Aiive.Nest.Training.IntegrationTest
         [Fact]
         public void Teste2() 
         {
-            string index = "kibana_sample_data_ecommerce";
-
-            var client = _helpers.CreateElasticClient(index);
-
-            client.Indices.PutAlias(index, "ecommerce2");
-
-            var result = client.Indices.GetAlias("ecommerce2");
+          
 
             
         }
