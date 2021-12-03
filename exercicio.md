@@ -26,4 +26,8 @@ Para esses exercícios vamos utilizar o indice de sample do kibana. Vamos fazer 
 
 7. Agora ele perguntou pra gente quanto nós vendemos para cada gênero.
 
-8. Vamos fazer essas queries usando NEST.
+8. Qual seria a quantidade de roupas compradas dentro de intervalos?
+
+9. Vamos separar a quantidade de taxas por intervalos.
+
+
