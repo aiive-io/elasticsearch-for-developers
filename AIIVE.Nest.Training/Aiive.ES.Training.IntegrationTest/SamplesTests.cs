@@ -1,24 +1,66 @@
+using AIIVE.ES.NEST.Training;
+using FluentAssertions;
 using System;
 using Xunit;
 
 namespace Aiive.Nest.Training.IntegrationTest
 {
-    public class UnitTest1
+    public class SamplesTests
     {
+        private readonly Helpers _helpers;
+
+        public SamplesTests()
+        {
+            _helpers = new Helpers();
+        }
+
+        [Fact]
+        public void Teste0()
+        {
+            string index1 = "ecommerce";
+            string index2 = "my-ecommerce";
+
+            var client = _helpers.CreateElasticClient(index1);
+            var result = client.Search<Sample>(s => s.MatchAll());
+
+            var client2 = _helpers.CreateElasticClient(index2);
+            var result2 = client2.Search<Sample>(s => s.MatchAll());
+            result2.Should().NotBeNull();
+            result.Should().NotBeNull();
+
+        }
+
         /// <summary>
         /// 1. Quantos documentos esse índice tem?
         /// </summary>
         [Fact]
         public void Teste1()
         {
+            string index = "ecommerce";
 
+            var client = _helpers.CreateElasticClient(index);
+
+            var result = client.Search<Sample>(s => s.MatchAll());
+
+            result.Total.Should().NotBe(0);
         }
 
         /// <summary>
         /// 2. Como podemos criar um alias para esse índice?
         /// </summary>
         [Fact]
-        public void Teste2() { }
+        public void Teste2() 
+        {
+            string index = "kibana_sample_data_ecommerce";
+
+            var client = _helpers.CreateElasticClient(index);
+
+            client.Indices.PutAlias(index, "ecommerce2");
+
+            var result = client.Indices.GetAlias("ecommerce2");
+
+            
+        }
 
         /// <summary>
         /// 3. Como verificamos o mapeamento desse índice?

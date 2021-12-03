@@ -5,7 +5,7 @@ namespace AIIVE.ES.NEST.Training
 {
     public class Sample
     {
-        public string Category { get; set; }
+        public string[] Category { get; set; }
 
         public string Currency { get; set; }
 
@@ -23,6 +23,5 @@ namespace AIIVE.ES.NEST.Training
 
         public string CustomerLastName { get; set; }
 
-        public
     }
 }
