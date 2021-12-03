@@ -9,6 +9,8 @@ namespace Aiive.Nest.Training.IntegrationTest
     {
         private readonly Helpers _helpers;
 
+        private const string INDEX_DEFAULT = "kibana_sample_data_ecommerce";
+
         public SamplesTests()
         {
             _helpers = new Helpers();
@@ -36,7 +38,11 @@ namespace Aiive.Nest.Training.IntegrationTest
         [Fact]
         public void Teste1()
         {
-          
+            var client = _helpers.CreateElasticClient(INDEX_DEFAULT);
+
+            var result = client.Search<Sample>(s => s.MatchAll().Size(0));
+
+            result.Total.Should().Be(4675);
         }
 
         /// <summary>
@@ -45,16 +51,25 @@ namespace Aiive.Nest.Training.IntegrationTest
         [Fact]
         public void Teste2() 
         {
-          
+            var client = _helpers.CreateElasticClient("kibana_sample_data_ecommerce");
 
-            
+            var result = client.Indices.PutAlias(INDEX_DEFAULT, "comercio2");
+
+            result.ApiCall.Success.Should().BeTrue();   
+
         }
 
         /// <summary>
         /// 3. Como verificamos o mapeamento desse índice?
         /// </summary>
         [Fact]
-        public void Teste3() { }
+        public void Teste3() 
+        {
+            var client = _helpers.CreateElasticClient("comercio");
+            var result = client.Indices.GetMapping<Sample>();
+
+            result.Indices.Count.Should().BeGreaterThan(0);
+        }
 
         /// <summary>
         /// 4. Como verificamos o mapeamento de um campo desse índice específico?
@@ -93,7 +108,16 @@ namespace Aiive.Nest.Training.IntegrationTest
         [Fact]
         public void Teste7() 
         {
+            var client = _helpers.CreateElasticClient("comercio");
 
+            var result = client.Search<Sample>(s =>
+            s.Aggregations(agg => agg.Terms("gender_terms", t =>
+            t.Field(f => f.CustomerGender)
+            .Missing("N/A")
+            .MinimumDocumentCount(0)
+            .Order(o => o.KeyAscending()))));
+
+            result.Aggregations.Count.Should().Be(1);
         }
 
         /// <summary>
@@ -105,6 +129,14 @@ namespace Aiive.Nest.Training.IntegrationTest
 
         }
 
+
+        [Fact]
+        public void Teste9()
+        {
+            var client = _helpers.CreateElasticClient("comercio");
+
+            var result = client.Search<Sample>(s => s.Query(q => q.Match(m => m.Field(f => f.CustomerFullName).Query("Eddie"))));
+        }
 
     }
 }

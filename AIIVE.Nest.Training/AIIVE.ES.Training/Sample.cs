@@ -15,8 +15,10 @@ namespace AIIVE.ES.NEST.Training
         [PropertyName("customer_first_name")]
         public string CustomerFirstName { get; set; }
 
+        [PropertyName("customer_full_name")]
         public string CustomerFullName { get; set; }
 
+        [PropertyName("customer_gender")]
         public string CustomerGender { get; set; }
 
         public string CustomerId { get; set; }
