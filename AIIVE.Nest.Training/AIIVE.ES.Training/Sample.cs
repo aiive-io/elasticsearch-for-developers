@@ -25,5 +25,11 @@ namespace AIIVE.ES.NEST.Training
 
         public string CustomerLastName { get; set; }
 
+        public Products[] Products { get; set; }
+
+    }
+    public class Products
+    {
+        public decimal Price { get; set; }
     }
 }

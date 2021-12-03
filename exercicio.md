@@ -120,7 +120,7 @@ GET /my-comercio/_search
 ```
 <b>Podemos perceber que a quantidade de retorno foi menor. Vocês lembram porque?</b>
 
-6. Nosso gerente de marketing perguntou se nós vendemos mais para pessoas que se identificam com o gênero Masculino ou Feminino.
+7. Nosso gerente de marketing perguntou se nós vendemos mais para pessoas que se identificam com o gênero Masculino ou Feminino.
 
 ```
 GET /comercio/_search
@@ -141,11 +141,61 @@ GET /comercio/_search
 }
 ```
 
-7. Agora ele perguntou pra gente quanto nós vendemos para cada gênero.
+8. Agora ele perguntou pra gente quanto nós vendemos para cada gênero.
 
-8. Qual seria a quantidade de roupas compradas dentro de intervalos?
+```
+GET /comercio/_search
+{
+  "size": 0,
+  "aggs": {
+    "gender_terms": {
+      "terms": {
+        "field": "customer_gender",
+        "missing": "N/A",
+        "min_doc_count": 0,
+        "order": {
+          "_key": "asc"
+        }
+      },
+      "aggs":{
+        "gender_sum": {
+          "stats": {
+            "field": "products.price"
+          }
+        }
+      }
+    }
+  }
+}
+```
 
-9. Vamos separar a quantidade de taxas por intervalos.
+9. Qual seria a quantidade de roupas compradas dentro de intervalos?
 
-10. O que significa Global?
+GET /comercio/_search
+{
+  "size": 0,
+  "aggs": {
+    "quantity_type": {
+      "range": {
+        "field": "total_quantity",
+        "ranges": [
+          {
+            "to": 1
+          },
+          {
+            "from": 1,
+            "to": 3
+          },
+          {
+            "from": 3
+          }
+        ]
+      }
+    }
+  }
+}
+
+10. Vamos separar a quantidade de taxas por intervalos.
+
+11. O que significa Global?
 

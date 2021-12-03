@@ -1,5 +1,6 @@
 using AIIVE.ES.NEST.Training;
 using FluentAssertions;
+using Nest;
 using System;
 using Xunit;
 
@@ -111,7 +112,7 @@ namespace Aiive.Nest.Training.IntegrationTest
             var client = _helpers.CreateElasticClient("comercio");
 
             var result = client.Search<Sample>(s =>
-            s.Aggregations(agg => agg.Terms("gender_terms", t =>
+            s.Size(0).Aggregations(agg => agg.Terms("gender_terms", t =>
             t.Field(f => f.CustomerGender)
             .Missing("N/A")
             .MinimumDocumentCount(0)
@@ -126,7 +127,11 @@ namespace Aiive.Nest.Training.IntegrationTest
         [Fact]
         public void Teste8()
         {
+            var client = _helpers.CreateElasticClient("comercio");
 
+            var result = client.Search<Sample>(s => s.Aggregations(agg =>
+            agg.Children<Sample>("bucket", child => child.Aggregations(agg=> 
+            agg.Terms("gender_terms", t => t.Field(f=> f.CustomerGender)).Stats("gender_sum", s => s.Field("products.price"))))));
         }
 
 
